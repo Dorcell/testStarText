@@ -105,34 +105,6 @@ const Converter = () => {
                     <div className='converter__result'>
                         <p>{amount + ' ' + from + ' = ' + converted.toFixed(2) + ' ' + to}</p>
                     </div>
-                    <div className='converter__ratio-table'>
-                        <table className='table'>
-                            <thead>
-                            <tr>
-                                <th>
-                                    Code
-                                </th>
-                                <th>
-                                    value for {amount} {from}
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {Object.keys(ratios).map((currencyCode) => {
-                                return (
-                                    <tr key={currencyCode}>
-                                        <td title={names[currencyCode]}>
-                                            {currencyCode}
-                                        </td>
-                                        <td>
-                                            {(amount * parseFloat(ratios[currencyCode])).toFixed(2)}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                            </tbody>
-                        </table>
-                    </div>
                 </>
             )}
         </div>

@@ -1,0 +1,39 @@
+.currencies {    
+    width: calc(100% - 40px);
+
+    .currency-selector {
+        h3 {
+            padding-right: 10px;
+        }
+
+        display: flex;
+        justify-content: center;
+    }
+
+    .converter__ratio-table {
+        position: relative;
+        display: block;
+        height: 430px;
+        overflow: auto;
+        width: 100%;
+        padding-top: 10px;
+
+        .table {
+            width: 100%;
+            text-align: center;
+
+            td {
+                width: 50%;
+            }
+
+            th {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            tr:nth-child(odd) {
+                background-color: #ffffff;
+            }
+        }
+    }
+}

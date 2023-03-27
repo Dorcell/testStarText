@@ -4,9 +4,10 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Converter from './components/converter/Converter';
 import Currencies from './components/table/Currencies';
 import Login from './components/login/Login';
+import Settings from './components/settings/Settings';
 import Signup from './components/signup/SignUp';
 import TopMenu from './components/navbar/TopMenu';
-import {QueryClient, QueryClientProvider} from 'react-query'
+import {QueryClient, QueryClientProvider} from 'react-query';
 
 const queryClient = new QueryClient()
 
@@ -22,6 +23,7 @@ function App() {
                       <Routes>
                         <Route path='/' element={<Converter/>}/>
                         <Route path='/currencies' element={<Currencies/>}/>
+                        <Route path='/settings' element={<Settings/>}/>
                         <Route path='/signup' element={<Signup/>}/>
                         <Route path='/login' element={<Login/>}/>
                       </Routes>

@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import Select from 'react-select';
 import {useQuery} from 'react-query';
 import CurrencyApiService from '../../services/CurrencyApiService';
+import AuthService from '../../services/AuthService';
 import './Currencies.scss';
-import currencyApiService from '../../services/CurrencyApiService';
 
 const Currencies = () => {
 
-    const [from, setFrom] = useState('usd');
+    const [from, setFrom] = useState(AuthService.getCurrentUser() ? AuthService.getCurrentUser().baseCurrency : 'usd');
     const [ratios, setRatios] = useState([]);
     const [names, setNames] = useState([]);
 
@@ -21,7 +21,7 @@ const Currencies = () => {
     );
 
     const fetchRatios = () => {
-        return currencyApiService.fetchRatios(from);
+        return CurrencyApiService.fetchRatios(from);
     }
 
     const {error, status, refetch} = useQuery(`ratios-from-${from}`, fetchRatios,
@@ -54,6 +54,7 @@ const Currencies = () => {
                         <h3>From</h3>
                         <Select options={getOptions()}
                                 isSearchable={true}
+                                className="selector"
                                 onChange={(e) => {
                                     setFrom(e.value);
                                     refetch();

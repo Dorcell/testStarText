@@ -1,0 +1,25 @@
+
+.settings {
+    width: calc(100% - 40px);
+  
+    h3, button, .switch {
+      color: #e0801e;
+    }
+  
+    &-form {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+  
+      &__select {
+        width: 400px;
+      }
+    }
+  
+    &__empty {
+      width: 100%;
+      text-align: center;
+    }
+}
+  

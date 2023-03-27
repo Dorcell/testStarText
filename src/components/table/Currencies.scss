@@ -6,8 +6,13 @@
             padding-right: 10px;
         }
 
+        .selector {
+            width: 250px;
+        }
+
         display: flex;
         justify-content: center;
+        align-items: baseline;
     }
 
     .converter__ratio-table {

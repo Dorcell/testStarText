@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import Select from 'react-select';
 import {HiSwitchHorizontal} from 'react-icons/hi';
 import {useQuery} from 'react-query';
-import CurrencyApiService from '../../services/CurrencyApiService';
 import './Converter.scss';
-import currencyApiService from '../../services/CurrencyApiService';
+import AuthService from '../../services/AuthService';
+import CurrencyApiService from '../../services/CurrencyApiService';
 
 const Converter = () => {
 
-    const [from, setFrom] = useState('usd');
+    const [from, setFrom] = useState(AuthService.getCurrentUser() ? AuthService.getCurrentUser().baseCurrency : 'usd');
     const [to, setTo] = useState('rub');
     const [amount, setAmount] = useState(0);
     const [ratios, setRatios] = useState([]);
@@ -25,7 +25,7 @@ const Converter = () => {
     );
 
     const fetchRatios = () => {
-        return currencyApiService.fetchRatios(from);
+        return CurrencyApiService.fetchRatios(from);
     }
 
     const {error, status, refetch} = useQuery(`ratios-from-${from}`, fetchRatios,

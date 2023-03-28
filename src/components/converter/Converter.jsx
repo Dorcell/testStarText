@@ -8,7 +8,7 @@ import CurrencyApiService from '../../services/CurrencyApiService';
 
 const Converter = () => {
 
-    const [from, setFrom] = useState(AuthService.getCurrentUser() ? AuthService.getCurrentUser().baseCurrency : 'usd');
+    const [from, setFrom] = useState(AuthService.getCurrentUser()?.baseCurrency ?? 'usd');
     const [to, setTo] = useState('rub');
     const [amount, setAmount] = useState(0);
     const [ratios, setRatios] = useState([]);
@@ -50,15 +50,14 @@ const Converter = () => {
     }
 
     const flip = () => {
-        const temp = from;
         setFrom(to);
-        setTo(temp);
+        setTo(from);
         refetch();
     }
 
     return (
         <div className='converter'>
-            {status === 'error' && <p>{error}</p>}
+            {status === 'error' && <p>{error.message}</p>}
             {status === 'success' && (
                 <>
                     <div className='converter-form'>

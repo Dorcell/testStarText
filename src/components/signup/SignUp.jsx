@@ -37,11 +37,11 @@ function Signup() {
             <h1>Signup</h1>
             <form className='login-form' onSubmit={e => handleSubmit(e)}>
                 <input type='text' placeholder='Username' value={formData.username} name='username' required={true}
-                       onChange={e => handleChange(e)}></input>
+                       onChange={handleChange}></input>
                 <input placeholder='Email' value={formData.email} name='email' type='email' required={true}
-                       onChange={e => handleChange(e)}></input>
+                       onChange={handleChange}></input>
                 <input placeholder='Password' value={formData.password} name='password' type='password' required={true}
-                       onChange={e => handleChange(e)}></input>
+                       onChange={handleChange}></input>
                 <button className='login-btn' type='submit'>Send</button>
                 {error !== '' && (
                     <p className='error'>{error}</p>

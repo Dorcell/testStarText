@@ -7,7 +7,7 @@ import './Currencies.scss';
 
 const Currencies = () => {
 
-    const [from, setFrom] = useState(AuthService.getCurrentUser() ? AuthService.getCurrentUser().baseCurrency : 'usd');
+    const [from, setFrom] = useState(AuthService.getCurrentUser()?.baseCurrency ?? 'usd');
     const [ratios, setRatios] = useState([]);
     const [names, setNames] = useState([]);
 
@@ -47,7 +47,7 @@ const Currencies = () => {
 
     return (
         <div className='currencies'>
-            {status === 'error' && <p>{error}</p>}
+            {status === 'error' && <p>{error.message}</p>}
             {status === 'success' && (
                 <>
                     <div className='currency-selector' title={names[from]}>

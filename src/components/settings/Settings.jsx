@@ -63,7 +63,7 @@ const Settings = () => {
 
     return (
         <div className='settings'>
-            {status === 'error' && <p>{error}</p>}
+            {status === 'error' && <p>{error.message}</p>}
             {status === 'success' && (
                 <>
                     {AuthService.getCurrentUser() && (

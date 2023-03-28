@@ -46,11 +46,9 @@ const setUserData = (data) => {
 const authHeader = () => {
     const user = JSON.parse(localStorage.getItem('user'));
 
-    if (user && user.accessToken) {
-        return {Authorization: 'Bearer ' + user.accessToken};
-    } else {
-        return {};
-    }
+    return user?.accessToken ? {Authorization: `Bearer ${user.accessToken}`} : {};
+    // Опциональная цепочка
+    // https://learn.javascript.ru/optional-chaining
 }
 
 const AuthService = {

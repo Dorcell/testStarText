@@ -50,9 +50,11 @@ const Converter = () => {
     }
 
     const flip = () => {
-        const temp = from;
         setFrom(to);
-        setTo(temp);
+        setTo(from);
+        // Не понял, зачем нужно было создавать ссылку
+        // Даже если это была попытка скопировать элемент, то очень странная, может быть стоит почитать это:
+        // https://learn.javascript.ru/object-copy
         refetch();
     }
 

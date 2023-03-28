@@ -23,6 +23,7 @@ const TopMenu = () => {
                     Currencies
                 </Nav.Link>
                 {AuthService.getCurrentUser() && (
+                    // Есть возможность попасть на страницу с настройками даже незарегестрированному пользователю, что приводит сразу к ошибке
                     <Nav.Link href='/settings'>
                         Settings
                     </Nav.Link>

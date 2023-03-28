@@ -64,6 +64,10 @@ const Settings = () => {
     return (
         <div className='settings'>
             {status === 'error' && <p>{error}</p>}
+            {/* Такая обработка ошибки приведёт к такому
+                Objects are not valid as a React child (found: [object Error]).
+                (Собственно, я этого и добился, когда просто удалил данные из localStorage)
+            */}
             {status === 'success' && (
                 <>
                     {AuthService.getCurrentUser() && (

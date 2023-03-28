@@ -17,6 +17,7 @@ function App() {
         <QueryClientProvider client={queryClient}>
             <div className='App'>
                 <div className='heading'>
+                    {/* Кста, понравилось визуальное оформление, всё очень приятно сделано */}
                     <h1>Currency converter</h1>
                 </div>
                 <BrowserRouter>

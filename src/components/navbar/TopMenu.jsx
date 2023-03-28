@@ -10,6 +10,7 @@ const TopMenu = () => {
     const logout = () => {
         AuthService.logout();
         navigate('/');
+        // Если делать logout со страницы settings => ошибка (красный запрос и белая страница)
         window.location.reload(false);
     }
 

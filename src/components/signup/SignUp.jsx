@@ -35,13 +35,17 @@ function Signup() {
     return (
         <div>
             <h1>Signup</h1>
-            <form className='login-form' onSubmit={e => handleSubmit(e)}>
+            <form className='login-form' onSubmit={handleSubmit}>
+            {/* Колбэк на onChange можно сразу посылать в функции */}
                 <input type='text' placeholder='Username' value={formData.username} name='username' required={true}
-                       onChange={e => handleChange(e)}></input>
+                       onChange={handleChange}></input>
+                       {/* Можно использовать неконтролируемые компоненты, тогда не придётся ловить изменения каждого элемента формы:
+                            https://ru.reactjs.org/docs/uncontrolled-components.html
+                            Но в современных библиотеках такое вообще не используется, так что это скорее для общего ознакомления */}
                 <input placeholder='Email' value={formData.email} name='email' type='email' required={true}
-                       onChange={e => handleChange(e)}></input>
+                       onChange={handleChange}></input>
                 <input placeholder='Password' value={formData.password} name='password' type='password' required={true}
-                       onChange={e => handleChange(e)}></input>
+                       onChange={handleChange}></input>
                 <button className='login-btn' type='submit'>Send</button>
                 {error !== '' && (
                     <p className='error'>{error}</p>

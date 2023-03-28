@@ -7,7 +7,9 @@ import './Currencies.scss';
 
 const Currencies = () => {
 
-    const [from, setFrom] = useState(AuthService.getCurrentUser() ? AuthService.getCurrentUser().baseCurrency : 'usd');
+    const [from, setFrom] = useState(AuthService.getCurrentUser()?.baseCurrency ?? 'usd');
+    //  Лаконичнее использовать оператор нулевого слияния
+    // https://learn.javascript.ru/nullish-coalescing-operator
     const [ratios, setRatios] = useState([]);
     const [names, setNames] = useState([]);
 

@@ -1,5 +1,6 @@
 const SERVER_URL = 'http://localhost:3000';
 const signup = (formData) => {
+    // Почему решила использовать для авторизации стороннюю либу?
     return fetch(`${SERVER_URL}/users`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -45,11 +46,9 @@ const setUserData = (data) => {
 const authHeader = () => {
     const user = JSON.parse(localStorage.getItem('user'));
 
-    if (user && user.accessToken) {
-        return {Authorization: 'Bearer ' + user.accessToken};
-    } else {
-        return {};
-    }
+    return user?.accessToken ? {Authorization: `Bearer ${user.accessToken}`} : {};
+    // Опциональная цепочка
+    // https://learn.javascript.ru/optional-chaining
 }
 
 const AuthService = {

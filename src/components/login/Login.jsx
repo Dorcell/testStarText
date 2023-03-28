@@ -2,6 +2,7 @@ import {useState} from 'react'
 import AuthService from '../../services/AuthService';
 import './Login.scss'
 import {useNavigate} from "react-router-dom";
+import {useMutation} from "react-query";
 
 function Login() {
     const navigate = useNavigate();
@@ -13,20 +14,30 @@ function Login() {
 
     const [error, setError] = useState('');
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        AuthService.login(formData).then((response) => {
-            return response.json();
-        }).then(function (data) {
-            if (data.user && data.accessToken) {
+    const sendLogin = async () => {
+        const res = await AuthService.login(formData);
+        return res.json();
+    }
+
+    const mutation = useMutation({
+        mutationFn: sendLogin,
+        onSuccess: (data) => {
+            console.log(data.user);
+            if (typeof data.user === 'object') {
                 localStorage.setItem('user', JSON.stringify(data.user));
                 navigate('/');
             } else {
-                setError(data)
+                setError(data);
             }
-        }).catch(err => {
+        },
+        onError: (err) => {
             setError(err)
-        });
+        }
+    })
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        mutation.mutate();
     }
 
     function handleChange(e) {
@@ -36,11 +47,11 @@ function Login() {
     return (
         <div>
             <h1>Login Form</h1>
-            <form className='login-form' onSubmit={e => handleSubmit(e)}>
+            <form className='login-form' onSubmit={handleSubmit}>
                 <input placeholder='Email' value={formData.email} type='email' name='email' required={true}
-                       onChange={e => handleChange(e)}></input>
+                       onChange={handleChange}></input>
                 <input placeholder='Password' value={formData.password} type='password' name='password' required={true}
-                       onChange={e => handleChange(e)}></input>
+                       onChange={handleChange}></input>
                 <button className='login-btn' type='submit'>Login</button>
                 {error !== '' && (
                     <p className='error'>{error}</p>

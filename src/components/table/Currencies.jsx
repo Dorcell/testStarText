@@ -24,9 +24,11 @@ const Currencies = () => {
         return CurrencyApiService.fetchRatios(from);
     }
 
-    const {error, status, refetch} = useQuery(`ratios-from-${from}`, fetchRatios,
+    const ratiosQuery = useQuery(['ratios', from], fetchRatios,
         {
             refetchOnWindowFocus: false,
+            refetchOnReconnect: false,
+            refetchOnMount: false,
             onSuccess: (res) => {
                 setRatios(res[from]);
             }
@@ -47,8 +49,9 @@ const Currencies = () => {
 
     return (
         <div className='currencies'>
-            {status === 'error' && <p>{error.message}</p>}
-            {status === 'success' && (
+            {ratiosQuery.status === 'loading' && <div className='container'><div className='loading'></div></div> }
+            {ratiosQuery.status === 'error' && <p>{ratiosQuery.error}</p>}
+            {ratiosQuery.status === 'success' && (
                 <>
                     <div className='currency-selector' title={names[from]}>
                         <h3>From</h3>
@@ -57,31 +60,30 @@ const Currencies = () => {
                                 className="selector"
                                 onChange={(e) => {
                                     setFrom(e.value);
-                                    refetch();
                                 }}
-                            value={from.value} placeholder={from}/>
+                                value={from.value} placeholder={from}/>
                     </div>
                     <div className='converter__ratio-table'>
                         <table className='table'>
                             <thead>
                             <tr>
-                                <th>
-                                    Code
-                                </th>
-                                <th>
-                                    value for {from}
-                                </th>
+                                <th>Name</th>
+                                <th>Code</th>
+                                <th>value for 1 {from}</th>
                             </tr>
                             </thead>
                             <tbody>
                             {Object.keys(ratios).map((currencyCode) => {
                                 return (
                                     <tr key={currencyCode}>
+                                        <td>
+                                            {names[currencyCode]}
+                                        </td>
                                         <td title={names[currencyCode]}>
                                             {currencyCode}
                                         </td>
                                         <td>
-                                            {(parseFloat(ratios[currencyCode])).toFixed(2)}
+                                            {(parseFloat(ratios[currencyCode])).toFixed(4)}
                                         </td>
                                     </tr>
                                 );

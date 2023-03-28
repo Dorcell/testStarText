@@ -8,7 +8,7 @@ import CurrencyApiService from '../../services/CurrencyApiService';
 
 const Converter = () => {
 
-    const [from, setFrom] = useState(AuthService.getCurrentUser()?.baseCurrency ?? 'usd');
+    const [from, setFrom] = useState(AuthService.getCurrentUser() ? AuthService.getCurrentUser().baseCurrency : 'usd');
     const [to, setTo] = useState('rub');
     const [amount, setAmount] = useState(0);
     const [ratios, setRatios] = useState([]);
@@ -28,8 +28,10 @@ const Converter = () => {
         return CurrencyApiService.fetchRatios(from);
     }
 
-    const {error, status, refetch} = useQuery(`ratios-from-${from}`, fetchRatios,
+    const ratiosQuery = useQuery(['ratios-from', from], fetchRatios,
         {
+            refetchOnReconnect: false,
+            refetchOnMount: false,
             refetchOnWindowFocus: false,
             onSuccess: (res) => {
                 setConverted(amount * res[from][to]);
@@ -37,6 +39,7 @@ const Converter = () => {
             }
         }
     );
+
     const getOptions = () => {
         if (typeof ratios === 'undefined' || ratios === null) {
             return [];
@@ -52,13 +55,13 @@ const Converter = () => {
     const flip = () => {
         setFrom(to);
         setTo(from);
-        refetch();
     }
 
     return (
         <div className='converter'>
-            {status === 'error' && <p>{error.message}</p>}
-            {status === 'success' && (
+            {ratiosQuery.status === 'loading' && <div className='container'><div className='loading'></div></div> }
+            {ratiosQuery.status === 'error' && <h3>{ratiosQuery.error}</h3>}
+            {ratiosQuery.status === 'success' && (
                 <>
                     <div className='converter-form'>
                         <div className='converter-form__amount'>
@@ -70,7 +73,7 @@ const Converter = () => {
                                    onChange={(e) => {
                                        if (e.target.value.match(/^([0-9]{1,})?(\.)?([0-9]{1,})?$/)) {
                                            setAmount(e.target.value);
-                                           refetch();
+                                           ratiosQuery.refetch();
                                        }
                                    }}/>
                         </div>
@@ -80,7 +83,6 @@ const Converter = () => {
                                     isSearchable={true}
                                     onChange={(e) => {
                                         setFrom(e.value);
-                                        refetch();
                                     }}
                                     value={from.value} placeholder={from}/>
                         </div>
@@ -96,13 +98,13 @@ const Converter = () => {
                                     title={names[to]}
                                     onChange={(e) => {
                                         setTo(e.value);
-                                        refetch();
+                                        ratiosQuery.refetch();
                                     }}
                                     value={to.value} placeholder={to}/>
                         </div>
                     </div>
                     <div className='converter__result'>
-                        <p>{amount + ' ' + from + ' = ' + converted.toFixed(2) + ' ' + to}</p>
+                        <p>{amount + ' ' + from + ' = ' + converted.toFixed(4) + ' ' + to}</p>
                     </div>
                 </>
             )}

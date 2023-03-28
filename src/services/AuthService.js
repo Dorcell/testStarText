@@ -1,5 +1,6 @@
 const SERVER_URL = 'http://localhost:3000';
 const signup = (formData) => {
+    // Почему решила использовать для авторизации стороннюю либу?
     return fetch(`${SERVER_URL}/users`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},

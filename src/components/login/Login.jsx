@@ -16,6 +16,9 @@ function Login() {
     function handleSubmit(e) {
         e.preventDefault();
         AuthService.login(formData).then((response) => {
+            // Раз уж везде использовался ReactQuery, то здесь тоже бы он не помешал, ведь от состояния этого запроса может зависеть кэш (ну и другие запросы тоже)
+            // Если возникли сложности с этим делом, то тут используется другой хук, не useQuery, а useMutation, который и позволяет забирать тело запроса
+            // https://tanstack.com/query/v4/docs/react/reference/useMutation
             return response.json();
         }).then(function (data) {
             if (data.user && data.accessToken) {

@@ -14,6 +14,9 @@ const Currencies = () => {
     const [names, setNames] = useState([]);
 
     useQuery(`currenciesDescriptions`, CurrencyApiService.fetchNames,
+        // Грузить каждый раз по клику на селект список расшифровок валют это очень грубая ошибка.
+        // Эта информация подгружается один раз при старте страницы, и в дальнейшем используется из кэша (ну, раз ты уже используешь ReactQuery), ну или запоминается на странице.
+        // Кста, интересная деталь, а зачем ты подгружаешь этот список, если ты его нигде не используешь? Валюты на странице отображаются по коду, а не по их названию. На странице конвертера тож самое.
         {
             staleTime: 10000,
             onSuccess: (res) => {
@@ -26,7 +29,8 @@ const Currencies = () => {
         return CurrencyApiService.fetchRatios(from);
     }
 
-    const {error, status, refetch} = useQuery(`ratios-from-${from}`, fetchRatios,
+    const {error, status, refetch} = useQuery(['ratios', from], fetchRatios,
+        // Так проще потом по ключу будет искать нужный запрос
         {
             refetchOnWindowFocus: false,
             onSuccess: (res) => {

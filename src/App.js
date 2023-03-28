@@ -8,6 +8,7 @@ import Settings from './components/settings/Settings';
 import Signup from './components/signup/SignUp';
 import TopMenu from './components/navbar/TopMenu';
 import {QueryClient, QueryClientProvider} from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 const queryClient = new QueryClient()
 
@@ -29,6 +30,7 @@ function App() {
                       </Routes>
                 </BrowserRouter>
             </div>
+            <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     );
 }
